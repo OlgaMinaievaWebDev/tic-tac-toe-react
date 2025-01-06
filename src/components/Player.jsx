@@ -9,25 +9,27 @@ function Player({ initialName, symbol }) {
   }
 
   function handleEditClick() {
-    setIsEditing(!isEditing);
+    setIsEditing((prev) => !prev);
   }
 
   return (
     <li>
       <span className="player">
-        <span className="player-name">{playerName}</span>
         {isEditing ? (
-          <span className="player-symbol">{symbol}</span>
-        ) : (
           <input
             type="text"
             required
             value={playerName}
             onChange={handleNameChange}
           />
+        ) : (
+          <>
+            <span className="player-name">{playerName}</span>
+            <span className="player-symbol">{symbol}</span>
+          </>
         )}
       </span>
-      <button onClick={handleEditClick}>Edit</button>
+      <button onClick={handleEditClick}>{isEditing ? "Save" : "Edit"}</button>
     </li>
   );
 }
