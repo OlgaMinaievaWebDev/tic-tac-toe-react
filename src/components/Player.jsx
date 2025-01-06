@@ -4,12 +4,12 @@ function Player({ initialName, symbol }) {
   const [playerName, setPlayerName] = useState(initialName);
   const [isEditing, setIsEditing] = useState(false);
 
-  function handleNameChange(e) {
-    setPlayerName(e.target.value);
-  }
-
   function handleEditClick() {
     setIsEditing((prev) => !prev);
+  }
+
+  function handleNameChange(e) {
+    setPlayerName(e.target.value);
   }
 
   return (
