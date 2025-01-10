@@ -3,6 +3,7 @@ import { WINNING_COMBINATIONS } from "./winning-combination";
 import Player from "./components/Player";
 import GameBoard from "./components/GameBoard";
 import Log from "./components/Log";
+import GameOver from "./components/GameOver";
 
 const initialGameBoard = Array(3)
   .fill(null)
@@ -31,20 +32,23 @@ function App() {
 
     gameBoard[row][col] = player;
   }
+  let winner = null;
 
-  for (let combination of WINNING_COMBINATIONS) {
-    let squareSymbols = [null, null, null];
-    for (let i = 0; i < squareSymbols.length; i++) {
-      squareSymbols[i] = gameBoard[combination[i].row][combination[i].column];
-    }
-    let joinedLine = squareSymbols.join("");
-    if (joinedLine === "XXX") {
-      winner = "X";
-    } else if (joinedLine === "OOO") {
-      winner = "O";
+  for (const combination of WINNING_COMBINATIONS) {
+    const firstSquareSymbol = gameBoard[combination[0].row][combination[0].col];
+    const secondSquareSymbol =
+      gameBoard[combination[1].row][combination[1].col];
+    const thirdSquareSymbol = gameBoard[combination[2].row][combination[2].col];
+
+    if (
+      firstSquareSymbol &&
+      firstSquareSymbol === secondSquareSymbol &&
+      firstSquareSymbol === thirdSquareSymbol
+    ) {
+      winner = firstSquareSymbol;
+      break; // Stop checking once a winner is found
     }
   }
-
   function handleSelectedSquare(rowIndex, colIndex) {
     // setActivePlayer((curActivePlayer) => (curActivePlayer === "X" ? "O" : "X"));
     setGameTurns((prevTurns) => {
@@ -73,6 +77,7 @@ function App() {
             isActive={activePlayer === "O"}
           />
         </ol>
+        {winner && <GameOver winner={winner} />}
         <GameBoard onSelectSquare={handleSelectedSquare} board={gameBoard} />
       </div>
       <Log turns={gameTurns} />

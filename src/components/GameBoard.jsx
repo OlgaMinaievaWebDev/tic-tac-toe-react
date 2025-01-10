@@ -1,4 +1,4 @@
-function GameBoard({ onSelectSquare, board }) {
+function GameBoard({ board, onSelectSquare }) {
   return (
     <ol id="game-board">
       {board.map((row, rowIndex) => (
@@ -8,7 +8,7 @@ function GameBoard({ onSelectSquare, board }) {
               <li key={colIndex}>
                 <button
                   onClick={() => onSelectSquare(rowIndex, colIndex)}
-                  disabled={playerSymbol}
+                  disabled={playerSymbol !== null} // Prevent overwriting
                 >
                   {playerSymbol}
                 </button>
